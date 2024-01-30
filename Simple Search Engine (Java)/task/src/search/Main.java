@@ -2,6 +2,9 @@ package search;
 import java.util.Scanner;
 
 public class Main {
+
+    private static String exit = "1";
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
@@ -9,31 +12,54 @@ public class Main {
         int total_people = sc.nextInt();
         sc.nextLine();
 
-        String[] details = new String[total_people];
+        String[] list_of_input = new String[total_people];
 
         System.out.println("Enter all people:");
         for(int i=0; i<total_people; i++){
-            details[i] = sc.nextLine();
+            list_of_input[i] = sc.nextLine();
         }
 
-        System.out.println("Enter the number of search queries:");
-        int no_of_queries = sc.nextInt();
-        sc.nextLine();
+        while(!exit.equals("0")){
 
-        while(no_of_queries!=0){
-            System.out.println("Enter data to search people:");
-            String data = sc.next();
-            String check = sc.nextLine();
-            if(check != ""){
-                System.out.println("No matching people found");
-                no_of_queries--;
+            System.out.println("=== Menu ===");
+            System.out.println("1. Find a person");
+            System.out.println("2. Print all people");
+            System.out.println("0. Exit");
+
+            int option_selected = sc.nextInt();
+            if(option_selected >= 3 || option_selected<0){
+                System.out.println("Incorrect option! Try again.");
                 continue;
+            }else if(option_selected == 1){
+                find_a_person(list_of_input, sc);
+            }else if(option_selected == 2){
+                print_all_people(list_of_input);
+            }else{
+                System.out.println("Bye!");
+                exit = "0";
             }
 
-            search(details, data.toLowerCase());
-            no_of_queries--;
         }
 
+    }
+
+    private static void print_all_people(String[] list_of_people) {
+
+        for(int i=0; i<list_of_people.length; i++){
+            System.out.println(list_of_people[i]);
+        }
+
+    }
+
+    private static void find_a_person(String[] details, Scanner sc) {
+        System.out.println("Enter a name or email to search all suitable people.");
+        String data = sc.next();
+        String check = sc.nextLine();
+        if(check != ""){
+            System.out.println("No matching people found");
+        }
+
+        search(details, data.toLowerCase());
     }
 
     private static void search(String[] details, String data){
@@ -43,10 +69,7 @@ public class Main {
             String[] arr = details[i].split(" ");
             for(int j=0; j<arr.length; j++){
                 if(find(arr[j].toLowerCase(), data)){
-                    if(first){
-                        System.out.println("Found people:");
-                        first = false;
-                    }
+                    first = false;
                     System.out.println(details[i]);
                     break;
                 }
