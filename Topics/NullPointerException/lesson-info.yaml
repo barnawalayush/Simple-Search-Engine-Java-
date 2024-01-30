@@ -1,0 +1,5 @@
+content:
+  - Theory
+  - Code that throws an exception
+  - Lines that may throw NPE
+  - Avoid NPE

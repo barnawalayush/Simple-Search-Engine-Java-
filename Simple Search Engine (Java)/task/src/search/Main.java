@@ -1,4 +1,8 @@
 package search;
+import java.awt.image.AreaAveragingScaleFilter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -8,16 +12,34 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("Enter the number of people:");
-        int total_people = sc.nextInt();
-        sc.nextLine();
+//        System.out.println("Enter the number of people:");
+//        int total_people = sc.nextInt();
+//        sc.nextLine();
 
-        String[] list_of_input = new String[total_people];
-
-        System.out.println("Enter all people:");
-        for(int i=0; i<total_people; i++){
-            list_of_input[i] = sc.nextLine();
+        String input_file_name = null;
+        for(int i=0; i< args.length; i=i+2){
+            if(args[i].equals("--data")){
+                input_file_name = args[i+1];
+            }
         }
+
+        ArrayList<String> list_of_people = new ArrayList<>();
+
+        File file = new File(input_file_name);
+        try(Scanner sc1 = new Scanner(file)){
+            while(sc1.hasNext()){
+                list_of_people.add(sc1.nextLine());
+            }
+        }catch(FileNotFoundException e){
+            System.out.println("Wrong file entered");
+        }
+
+//
+//        System.out.println("Enter all people:");
+//        for(int i=0; i<total_people; i++){
+//            list_of_input[i] = sc.nextLine();
+//        }
+
 
         while(!exit.equals("0")){
 
@@ -31,9 +53,9 @@ public class Main {
                 System.out.println("Incorrect option! Try again.");
                 continue;
             }else if(option_selected == 1){
-                find_a_person(list_of_input, sc);
+                find_a_person(list_of_people, sc);
             }else if(option_selected == 2){
-                print_all_people(list_of_input);
+                print_all_people(list_of_people);
             }else{
                 System.out.println("Bye!");
                 exit = "0";
@@ -43,15 +65,15 @@ public class Main {
 
     }
 
-    private static void print_all_people(String[] list_of_people) {
+    private static void print_all_people(ArrayList<String> list_of_people) {
 
-        for(int i=0; i<list_of_people.length; i++){
-            System.out.println(list_of_people[i]);
+        for(String one_person_detail: list_of_people){
+            System.out.println(one_person_detail);
         }
 
     }
 
-    private static void find_a_person(String[] details, Scanner sc) {
+    private static void find_a_person(ArrayList<String> list_of_people, Scanner sc) {
         System.out.println("Enter a name or email to search all suitable people.");
         String data = sc.next();
         String check = sc.nextLine();
@@ -59,18 +81,18 @@ public class Main {
             System.out.println("No matching people found");
         }
 
-        search(details, data.toLowerCase());
+        search(list_of_people, data.toLowerCase());
     }
 
-    private static void search(String[] details, String data){
+    private static void search(ArrayList<String> details, String data){
 
         boolean first = true;
-        for(int i=0; i<details.length; i++){
-            String[] arr = details[i].split(" ");
+        for(String one_person_detail: details){
+            String[] arr = one_person_detail.split(" ");
             for(int j=0; j<arr.length; j++){
                 if(find(arr[j].toLowerCase(), data)){
                     first = false;
-                    System.out.println(details[i]);
+                    System.out.println(one_person_detail);
                     break;
                 }
             }
