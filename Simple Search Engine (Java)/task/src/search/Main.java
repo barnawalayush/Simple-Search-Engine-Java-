@@ -5,10 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
@@ -16,6 +13,9 @@ public class Main {
     private static int option_selected = -1;
 
     public static void main(String[] args) {
+
+        Map<String, ArrayList<Integer>> word_to_line_number = new HashMap<>();
+
         Scanner sc = new Scanner(System.in);
 
         String input_file_name = null;
@@ -29,8 +29,21 @@ public class Main {
 
         try {
             String content = new String(Files. readAllBytes(Paths. get(input_file_name)));
-            String[] str = content.split("\n");
-            for(String st: str)list_of_people.add(st);
+            String[] all_people = content.split("\n");
+
+            for(int i=0; i<all_people.length; i++){
+                list_of_people.add(all_people[i]);
+
+                String[] each_word = all_people[i].split(" ");
+
+                for(String word: each_word){
+                    if(word_to_line_number.get(word) == null){
+                        word_to_line_number.put(word, new ArrayList<>());
+                    }
+                    word_to_line_number.get(word).add(i);
+                }
+
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -57,7 +70,8 @@ public class Main {
                 System.out.println("Incorrect option! Try again.");
                 continue;
             }else if(option_selected == 1){
-                find_a_person(list_of_people, sc);
+                find_person(list_of_people, sc, word_to_line_number);
+               // find_a_person(list_of_people, sc);
             }else if(option_selected == 2){
                 print_all_people(list_of_people);
             }else{
@@ -77,6 +91,26 @@ public class Main {
 
     }
 
+    // Here searching is done using HashMap
+    private static void find_person(ArrayList<String> list_of_people, Scanner sc, Map<String, ArrayList<Integer>> word_to_line_number) {
+        System.out.println("Enter a name or email to search all suitable people.");
+        String word_to_search = sc.next();
+        String check = sc.nextLine();
+        if(check != ""){
+            System.out.println("No matching people found");
+        }
+
+        if(word_to_line_number.get(word_to_search) == null){
+            System.out.println("No matching people found");
+            return;
+        }
+        List<Integer> list_of_line_no_having_word = word_to_line_number.get(word_to_search);
+        for(int line_number: list_of_line_no_having_word){
+            System.out.println(list_of_people.get(line_number));
+        }
+    }
+
+    // Here searching is done through array list
     private static void find_a_person(ArrayList<String> list_of_people, Scanner sc) {
         System.out.println("Enter a name or email to search all suitable people.");
         String data = sc.next();
