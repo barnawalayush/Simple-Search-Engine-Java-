@@ -2,19 +2,21 @@ package search;
 import java.awt.image.AreaAveragingScaleFilter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
 
     private static String exit = "1";
+    private static int option_selected = -1;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-
-//        System.out.println("Enter the number of people:");
-//        int total_people = sc.nextInt();
-//        sc.nextLine();
 
         String input_file_name = null;
         for(int i=0; i< args.length; i=i+2){
@@ -25,21 +27,13 @@ public class Main {
 
         ArrayList<String> list_of_people = new ArrayList<>();
 
-        File file = new File(input_file_name);
-        try(Scanner sc1 = new Scanner(file)){
-            while(sc1.hasNext()){
-                list_of_people.add(sc1.nextLine());
-            }
-        }catch(FileNotFoundException e){
-            System.out.println("Wrong file entered");
+        try {
+            String content = new String(Files. readAllBytes(Paths. get(input_file_name)));
+            String[] str = content.split("\n");
+            for(String st: str)list_of_people.add(st);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-//
-//        System.out.println("Enter all people:");
-//        for(int i=0; i<total_people; i++){
-//            list_of_input[i] = sc.nextLine();
-//        }
-
 
         while(!exit.equals("0")){
 
@@ -48,7 +42,17 @@ public class Main {
             System.out.println("2. Print all people");
             System.out.println("0. Exit");
 
-            int option_selected = sc.nextInt();
+            while(true){
+                try{
+                    option_selected = sc.nextInt();
+                    break;
+                }
+                catch(InputMismatchException e){
+                    System.out.print("Please enter number among 0,1,2: ");
+                    continue;
+                }
+            }
+
             if(option_selected >= 3 || option_selected<0){
                 System.out.println("Incorrect option! Try again.");
                 continue;
