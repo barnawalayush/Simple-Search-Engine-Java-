@@ -39,7 +39,5 @@ public class FindAll implements FindStrategy{
             int numberOfOccurrence = mappingOfLines.get(key);
             if(numberOfOccurrence == total_word) System.out.println(listOfPeople.get(key));
         }
-
-        return;
     }
 }

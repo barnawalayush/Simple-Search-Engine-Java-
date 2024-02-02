@@ -321,12 +321,6 @@ files:
           }
       }
     learner_created: false
-  - name: src/search/Strategy/FindStrategy.java
-    visible: true
-    learner_created: true
-  - name: src/search/Strategy/FindAnyNone.java
-    visible: true
-    learner_created: true
   - name: src/search/Strategy/FindAll.java
     visible: true
     learner_created: true
@@ -339,10 +333,16 @@ files:
   - name: src/search/AnyOrNoneWords.java
     visible: true
     learner_created: true
+  - name: src/search/Strategy/FindAnyNone.java
+    visible: true
+    learner_created: true
+  - name: src/search/Strategy/FindStrategy.java
+    visible: true
+    learner_created: true
 feedback_link: https://hyperskill.org/learn/step/5501#comment
 status: Solved
 feedback:
   message: Well done! You've finished the project. Select a new project on <a href="https://hyperskill.org/projects">Hyperskill</a>
     to continue learning.
-  time: "Fri, 02 Feb 2024 06:23:33 UTC"
+  time: "Fri, 02 Feb 2024 06:56:02 UTC"
 record: -1
