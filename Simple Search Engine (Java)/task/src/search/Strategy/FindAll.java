@@ -4,7 +4,6 @@ import java.util.*;
 
 public class FindAll implements FindStrategy{
 
-
     @Override
     public void find(String strategy, ArrayList<String> listOfPeople, Scanner sc, Map<String, ArrayList<Integer>> wordToLineNumber) {
 

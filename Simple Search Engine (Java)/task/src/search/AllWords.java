@@ -8,4 +8,5 @@ public class AllWords extends ComputeSearch{
     AllWords() {
         super(new FindAll());
     }
+
 }

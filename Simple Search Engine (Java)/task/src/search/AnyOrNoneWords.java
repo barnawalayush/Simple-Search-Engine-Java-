@@ -5,8 +5,8 @@ import search.Strategy.FindStrategy;
 
 public class AnyOrNoneWords extends ComputeSearch{
 
-
     AnyOrNoneWords() {
         super(new FindAnyNone());
     }
+
 }
