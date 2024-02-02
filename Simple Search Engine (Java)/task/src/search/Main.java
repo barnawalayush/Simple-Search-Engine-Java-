@@ -76,16 +76,28 @@ public class Main {
 
                 String strategy_selected = sc.nextLine();
 
-                if(strategy_selected.equals("ALL")){
-                  //  find_all(list_of_people, sc, word_to_line_number, strategy_selected);
-                    find_all(list_of_people, sc, word_to_line_number);
-                }else if(strategy_selected.equals("ANY")){
-                    find_any(list_of_people, sc, word_to_line_number);
-                }else if(strategy_selected.equals("NONE")){
-                    find_none(list_of_people, sc, word_to_line_number);
-                }
+//                if(strategy_selected.equals("ALL")){
+//                  //  find_all(list_of_people, sc, word_to_line_number, strategy_selected);
+//                    find_all(list_of_people, sc, word_to_line_number);
+//                }else if(strategy_selected.equals("ANY")){
+//                    find_any(list_of_people, sc, word_to_line_number);
+//                }else if(strategy_selected.equals("NONE")){
+//                    find_none(list_of_people, sc, word_to_line_number);
+//                }
                 //find_person(list_of_people, sc, word_to_line_number);
                // find_a_person(list_of_people, sc);
+
+                ComputeSearch computeSearch;
+                if(strategy_selected.equals("ALL")){
+                    computeSearch = new AllWords();
+                    computeSearch.find("ALL", list_of_people, sc, word_to_line_number);
+                }else if(strategy_selected.equals("ANY")){
+                    computeSearch = new AnyOrNoneWords();
+                    computeSearch.find("ANY", list_of_people, sc, word_to_line_number);
+                }else{
+                    computeSearch = new AnyOrNoneWords();
+                    computeSearch.find("NONE", list_of_people, sc, word_to_line_number);
+                }
             }else if(option_selected == 2){
                 print_all_people(list_of_people);
             }else{
@@ -96,59 +108,61 @@ public class Main {
 
     }
 
-    private static void find_none(ArrayList<String> listOfPeople, Scanner sc, Map<String, ArrayList<Integer>> wordToLineNumber) {
+//    private static void find_none(ArrayList<String> listOfPeople, Scanner sc, Map<String, ArrayList<Integer>> wordToLineNumber) {
+//
+//        int total_people = listOfPeople.size();
+//
+//        HashSet<Integer> setOfLines = new HashSet<>();
+//
+//        System.out.println("Enter a name or email to search all suitable people.");
+//        String wordsToSearch = sc.nextLine();
+//
+//        String[] listOfWordsToSearch = wordsToSearch.split(" ");
+//
+//        for(String word_to_search: listOfWordsToSearch){
+//            if(wordToLineNumber.get(word_to_search.toLowerCase()) != null){
+//                List<Integer> list_of_line_no_having_word = wordToLineNumber.get(word_to_search.toLowerCase());
+//                for(int line_number: list_of_line_no_having_word){
+//                    setOfLines.add(line_number);
+//                }
+//            }
+//        }
+//
+//        for(int i=0; i<total_people; i++){
+//            if(!setOfLines.contains(i)){
+//                System.out.println(listOfPeople.get(i));
+//            }
+//        }
+//
+//    }
 
-        int total_people = listOfPeople.size();
+//    private static void find_any(ArrayList<String> listOfPeople, Scanner sc, Map<String, ArrayList<Integer>> wordToLineNumber) {
+//
+//        HashSet<Integer> setOfLines = new HashSet<>();
+//
+//        System.out.println("Enter a name or email to search all suitable people.");
+//        String wordsToSearch = sc.nextLine();
+//
+//        String[] listOfWordsToSearch = wordsToSearch.split(" ");
+//
+//        for(String word_to_search: listOfWordsToSearch){
+//            if(wordToLineNumber.get(word_to_search.toLowerCase()) != null){
+//                List<Integer> list_of_line_no_having_word = wordToLineNumber.get(word_to_search.toLowerCase());
+//                for(int line_number: list_of_line_no_having_word){
+//                    setOfLines.add(line_number);
+//                }
+//            }
+//        }
+//        if(setOfLines.size() == 0){
+//            System.out.println("No matching people found");
+//            return;
+//        }
+//        for(int lineNumber: setOfLines){
+//            System.out.println(listOfPeople.get(lineNumber));
+//        }
+//    }
 
-        HashSet<Integer> setOfLines = new HashSet<>();
 
-        System.out.println("Enter a name or email to search all suitable people.");
-        String wordsToSearch = sc.nextLine();
-
-        String[] listOfWordsToSearch = wordsToSearch.split(" ");
-
-        for(String word_to_search: listOfWordsToSearch){
-            if(wordToLineNumber.get(word_to_search.toLowerCase()) != null){
-                List<Integer> list_of_line_no_having_word = wordToLineNumber.get(word_to_search.toLowerCase());
-                for(int line_number: list_of_line_no_having_word){
-                    setOfLines.add(line_number);
-                }
-            }
-        }
-
-        for(int i=0; i<total_people; i++){
-            if(!setOfLines.contains(i)){
-                System.out.println(listOfPeople.get(i));
-            }
-        }
-
-    }
-
-    private static void find_any(ArrayList<String> listOfPeople, Scanner sc, Map<String, ArrayList<Integer>> wordToLineNumber) {
-
-        HashSet<Integer> setOfLines = new HashSet<>();
-
-        System.out.println("Enter a name or email to search all suitable people.");
-        String wordsToSearch = sc.nextLine();
-
-        String[] listOfWordsToSearch = wordsToSearch.split(" ");
-
-        for(String word_to_search: listOfWordsToSearch){
-            if(wordToLineNumber.get(word_to_search.toLowerCase()) != null){
-                List<Integer> list_of_line_no_having_word = wordToLineNumber.get(word_to_search.toLowerCase());
-                for(int line_number: list_of_line_no_having_word){
-                    setOfLines.add(line_number);
-                }
-            }
-        }
-        if(setOfLines.size() == 0){
-            System.out.println("No matching people found");
-            return;
-        }
-        for(int lineNumber: setOfLines){
-            System.out.println(listOfPeople.get(lineNumber));
-        }
-    }
 
 //    private static void find_all(ArrayList<String> listOfPeople, Scanner sc, Map<String, ArrayList<Integer>> wordToLineNumber, String strategy_selected) {
 //
@@ -161,38 +175,38 @@ public class Main {
 //
 //    }
 
-    private static void find_all(ArrayList<String> listOfPeople, Scanner sc, Map<String, ArrayList<Integer>> wordToLineNumber) {
-
-        HashMap<Integer, Integer> setOfLines = new HashMap<>();
-
-        System.out.println("Enter a name or email to search all suitable people.");
-        String wordsToSearch = sc.nextLine();
-
-        String[] listOfWordsToSearch = wordsToSearch.split(" ");
-
-        int total_word = listOfWordsToSearch.length;
-
-        for(String word_to_search: listOfWordsToSearch){
-            if(wordToLineNumber.get(word_to_search.toLowerCase()) == null){
-                System.out.println("No matching people found");
-                return;
-            }
-            List<Integer> list_of_line_no_having_word = wordToLineNumber.get(word_to_search.toLowerCase());
-            for(int line_number: list_of_line_no_having_word){
-                if(setOfLines.get(line_number) == null){
-                    setOfLines.put(line_number, 1);
-                }else{
-                    int x = setOfLines.get(line_number);
-                    setOfLines.put(line_number, x+1);
-                }
-            }
-        }
-
-        for(int key: setOfLines.keySet()){
-            int numberOfOccurrence = setOfLines.get(key);
-            if(numberOfOccurrence == total_word)System.out.println(listOfPeople.get(key));
-        }
-    }
+//    private static void find_all(ArrayList<String> listOfPeople, Scanner sc, Map<String, ArrayList<Integer>> wordToLineNumber) {
+//
+//        HashMap<Integer, Integer> setOfLines = new HashMap<>();
+//
+//        System.out.println("Enter a name or email to search all suitable people.");
+//        String wordsToSearch = sc.nextLine();
+//
+//        String[] listOfWordsToSearch = wordsToSearch.split(" ");
+//
+//        int total_word = listOfWordsToSearch.length;
+//
+//        for(String word_to_search: listOfWordsToSearch){
+//            if(wordToLineNumber.get(word_to_search.toLowerCase()) == null){
+//                System.out.println("No matching people found");
+//                return;
+//            }
+//            List<Integer> list_of_line_no_having_word = wordToLineNumber.get(word_to_search.toLowerCase());
+//            for(int line_number: list_of_line_no_having_word){
+//                if(setOfLines.get(line_number) == null){
+//                    setOfLines.put(line_number, 1);
+//                }else{
+//                    int x = setOfLines.get(line_number);
+//                    setOfLines.put(line_number, x+1);
+//                }
+//            }
+//        }
+//
+//        for(int key: setOfLines.keySet()){
+//            int numberOfOccurrence = setOfLines.get(key);
+//            if(numberOfOccurrence == total_word)System.out.println(listOfPeople.get(key));
+//        }
+//    }
 
     private static void print_all_people(ArrayList<String> list_of_people) {
 
